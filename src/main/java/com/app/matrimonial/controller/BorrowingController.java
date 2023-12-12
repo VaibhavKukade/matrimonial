@@ -26,7 +26,6 @@ public class BorrowingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add expense");
         }
     }
-    //testing
 
 
     // Get All Expenses
