@@ -9,6 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.app</groupId>
+	<packaging>war</packaging>
 	<artifactId>matrimonial</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>matrimonial</name>
@@ -59,6 +60,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>matrimonial</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
