@@ -5,10 +5,12 @@ import com.app.matrimonial.repository.UserRepository;
 import com.app.matrimonial.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 
 @Service
+@Primary
 public class UserServiceImpl implements UserService {
 
     @Autowired
