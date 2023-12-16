@@ -48,7 +48,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
-    @GetMapping("getAllUser/unapproved")
+    @GetMapping("/getAllUser/unapproved")
     public ResponseEntity<List<Users>> getAllUnapprovedUsers() {
         List<Users> users = userService.findUnapprovedUsers();
         if (users!=null && users.size()>0) {

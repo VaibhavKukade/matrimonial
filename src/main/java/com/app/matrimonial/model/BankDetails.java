@@ -27,8 +27,8 @@ public class BankDetails {
     @Column(name = "upiId")
     private String upiId;
 
-    @Column(name = "imageUrl")
-    private String imageUrl;
+    @Column(name = "imageName")
+    private String imageName;
 
     @Column(name = "status")
     private Boolean status;
@@ -73,13 +73,6 @@ public class BankDetails {
         this.upiId = upiId;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public Boolean getStatus() {
         return status;
@@ -87,6 +80,14 @@ public class BankDetails {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     @Override
@@ -97,7 +98,7 @@ public class BankDetails {
                 ", accountNo='" + accountNo + '\'' +
                 ", ifscCode='" + ifscCode + '\'' +
                 ", upiId='" + upiId + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageName='" + imageName + '\'' +
                 ", status=" + status +
                 '}';
     }

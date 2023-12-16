@@ -1,7 +1,7 @@
 package com.app.matrimonial.controller;
 
 import com.app.matrimonial.model.BankDetails;
-import com.app.matrimonial.service.BankDetialsService;
+import com.app.matrimonial.service.BankDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/bank/")
 public class BankDetailsController {
 
+
     @Autowired
-    BankDetialsService bankDetailsService;
+    BankDetailsService bankDetailsService;
 
     @PostMapping("details/save")
     public ResponseEntity<String> saveBankDetails(@RequestBody BankDetails bankDetails) {

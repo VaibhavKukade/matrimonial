@@ -1,12 +1,13 @@
 package com.app.matrimonial.service.impl;
 
 import com.app.matrimonial.model.BankDetails;
-import com.app.matrimonial.model.Borrowing;
 import com.app.matrimonial.repository.BankDetailsRepository;
-import com.app.matrimonial.service.BankDetialsService;
+import com.app.matrimonial.service.BankDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class BankDetailsServiceImpl implements BankDetialsService {
+@Service
+public class BankDetailsServiceImpl implements BankDetailsService {
 
     @Autowired
     BankDetailsRepository bankDetailsRepository;

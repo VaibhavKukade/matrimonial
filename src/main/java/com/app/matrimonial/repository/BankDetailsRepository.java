@@ -1,7 +1,7 @@
 package com.app.matrimonial.repository;
 
 import com.app.matrimonial.model.BankDetails;
-import com.app.matrimonial.service.BankDetialsService;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
