@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Users> findUnapprovedUsers(){
+        return userRepository.findUnapprovedUsers();
+    }
+
+    @Override
     public boolean authenticateUser(Users loginUser) {
         Users userFromDB = userRepository.findByUsername(loginUser.getUsername());
 

@@ -40,5 +40,8 @@ public class Users {
     @Column(name = "confirm_password")
     private String confirmPassword;
 
+    @Column(name = "approved")
+    private Boolean approved;
+
 
 }

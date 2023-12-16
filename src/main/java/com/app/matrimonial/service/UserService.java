@@ -12,5 +12,7 @@ public interface UserService {
 
     List<Users> findAll();
 
+    List<Users> findUnapprovedUsers();
+
     boolean authenticateUser(Users loginUser);
 }
