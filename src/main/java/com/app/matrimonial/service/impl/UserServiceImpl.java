@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @Primary
@@ -28,5 +30,18 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(newUser);
         return "User registered successfully";
+    }
+
+    @Override
+    public List<Users> findAll() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public boolean authenticateUser(Users loginUser) {
+        Users userFromDB = userRepository.findByUsername(loginUser.getUsername());
+
+        // Check if the user exists and the password matches
+        return userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword());
     }
 }

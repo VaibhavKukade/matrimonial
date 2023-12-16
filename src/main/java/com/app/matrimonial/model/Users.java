@@ -2,15 +2,6 @@ package com.app.matrimonial.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -19,45 +10,35 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class Users implements UserDetails {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "email_id")
     private String email;
+
+    @Column(name = "password")
     private String password;
-    private String role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        String[] authoritiesArray = {"ADMIN"};
-        List<SimpleGrantedAuthority> authoritiesList = new ArrayList<>();
+    @Column(name = "first_name")
+    private String firstName;
 
-        for (String authority : authoritiesArray) {
-            authoritiesList.add(new SimpleGrantedAuthority(authority));
-        }
-        return null;
-    }
+    @Column(name = "last_name")
+    private String lastName;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    @Column(name = "mobile_no")
+    private String mobileNo;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    @Column(name = "address")
+    private String address;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    @Column(name = "confirm_password")
+    private String confirmPassword;
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+
 }
