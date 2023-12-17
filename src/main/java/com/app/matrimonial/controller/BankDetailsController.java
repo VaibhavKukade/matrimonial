@@ -26,7 +26,7 @@ public class BankDetailsController {
     }
 
     @GetMapping("get")
-    public ResponseEntity<BankDetails> getAllExpenses() {
+    public ResponseEntity<BankDetails> getBankDetails() {
         BankDetails bankDetails = bankDetailsService.get();
         if (bankDetails == null) {
             return (ResponseEntity<BankDetails>) ResponseEntity.notFound();

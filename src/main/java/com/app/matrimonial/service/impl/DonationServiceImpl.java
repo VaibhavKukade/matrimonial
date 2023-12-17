@@ -36,5 +36,11 @@ public class DonationServiceImpl implements DonationService {
         return  donationRepository.getDonationsByUsername(username);
     }
 
+    @Override
+    public List<Donation> getAllDonations(){
+        return  donationRepository.findAll();
+    }
+
+
 
 }

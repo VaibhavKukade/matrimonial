@@ -43,6 +43,21 @@ public class DonationController {
 
     }
 
+    @GetMapping("get/all")
+    public ResponseEntity<List<Donation>> getAllDonations() {
+        try {
+            List<Donation> donationList=donationService.getAllDonations();
+            if (donationList!=null && donationList.size()>0){
+                return ResponseEntity.ok(donationList);
+            }else{
+                return (ResponseEntity<List<Donation>>) ResponseEntity.notFound();
+            }
+        } catch (Exception e) {
+            return (ResponseEntity<List<Donation>>) ResponseEntity.internalServerError();
+        }
+
+    }
+
     @GetMapping("get/unapproved")
     public ResponseEntity<List<Donation>> getAllUnapprovedUsers() {
         try {
