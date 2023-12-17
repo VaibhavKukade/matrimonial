@@ -34,4 +34,14 @@ public class BankDetailsController {
             return ResponseEntity.ok(bankDetails);
         }
     }
+
+    @PutMapping("details/update")
+    public ResponseEntity<String> updateBankDetails(@RequestBody BankDetails bankDetails) {
+        try {
+            bankDetailsService.saveDetails(bankDetails);
+            return ResponseEntity.ok("Bank Details updated  successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update details");
+        }
+    }
 }
