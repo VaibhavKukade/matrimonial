@@ -26,6 +26,20 @@ public class BorrowingServiceImpl implements BorrowingService {
     }
 
     @Override
+    public List<Borrowing> getUnapprovedBorrowing() {
+        return borrowingRepository.getUnapprovedBorrowing();
+    }
+
+    @Override
+    public List<Borrowing> getApprovedBorrowing() {return borrowingRepository.getApprovedBorrowing();}
+
+    @Override
+    public List<Borrowing> getBorrowingByUsername(String username) {
+        return borrowingRepository.getBorrowingByUsername(username);
+    }
+
+
+    @Override
     public Optional<Borrowing> findById(Long id) {
         return borrowingRepository.findById(Math.toIntExact(id));
     }

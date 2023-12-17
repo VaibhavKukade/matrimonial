@@ -32,8 +32,7 @@ public class Borrowing {
     private Date returnDate;
 
     @Column(name = "status")
-    private String status;
-
+    private Boolean status;
     @Column(name = "user_id")
     private long userId;
 
