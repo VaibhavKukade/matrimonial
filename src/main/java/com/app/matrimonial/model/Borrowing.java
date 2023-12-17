@@ -15,12 +15,15 @@ import java.util.Date;
 public class Borrowing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "borrowing_id")
     private int borrowingId;
 
-    @Column(name = "item_name")
-    private String itemName;
+
+    @Column(name = "amount")
+    private Double amount;
+
+    @Column(name = "note",columnDefinition = "TEXT")
+    private String note;
 
     @Column(name = "borrower_name")
     private String borrowerName;
