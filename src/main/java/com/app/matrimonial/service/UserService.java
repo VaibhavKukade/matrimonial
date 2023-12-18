@@ -14,5 +14,5 @@ public interface UserService {
 
     List<Users> findUnapprovedUsers();
 
-    boolean authenticateUser(Users loginUser);
+    Users authenticateUser(Users loginUser);
 }

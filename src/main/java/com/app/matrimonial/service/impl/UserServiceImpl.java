@@ -43,10 +43,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean authenticateUser(Users loginUser) {
+    public Users authenticateUser(Users loginUser) {
         Users userFromDB = userRepository.findByUsername(loginUser.getUsername());
 
         // Check if the user exists and the password matches
-        return userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword());
+//        return userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword());
+        if (userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword())){
+            return userFromDB;
+        }else{
+            return null;
+        }
     }
 }

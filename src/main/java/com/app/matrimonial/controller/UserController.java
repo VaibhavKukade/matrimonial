@@ -38,14 +38,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Users loginUser) {
+    public ResponseEntity<Users> login(@RequestBody Users loginUser) {
         // Implement login logic using userService or authentication service
-        boolean isAuthenticated = userService.authenticateUser(loginUser);
+        Users isAuthenticated = userService.authenticateUser(loginUser);
 
-        if (isAuthenticated) {
-            return ResponseEntity.status(HttpStatus.OK).body("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        if (isAuthenticated!=null){
+            return ResponseEntity.ok(isAuthenticated);
+        }else{
+            return (ResponseEntity<Users>) ResponseEntity.status(HttpStatus.UNAUTHORIZED);
         }
     }
     @GetMapping("/getAllUser/unapproved")
