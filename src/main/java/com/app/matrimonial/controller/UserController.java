@@ -31,6 +31,16 @@ public class UserController {
         }
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<String> updateUser(@RequestBody Users newUser) {
+        Users updateUser = userService.updateUser(newUser);
+        if (updateUser!=null){
+            return ResponseEntity.ok("User updated successfully");
+        }else{
+            return (ResponseEntity<String>) ResponseEntity.noContent();
+        }
+    }
+
     @GetMapping("/getAllUser")
     public ResponseEntity<List<Users>> getAllExpenses() {
         List<Users> users = userService.findAll();

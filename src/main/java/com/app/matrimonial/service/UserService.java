@@ -9,6 +9,7 @@ import java.util.List;
 public interface UserService {
 
     String signUpUser(Users newUser);
+    Users updateUser(Users newUser);
 
     List<Users> findAll();
 
