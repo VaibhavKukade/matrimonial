@@ -48,9 +48,10 @@ public class UserServiceImpl implements UserService {
 
         // Check if the user exists and the password matches
 //        return userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword());
-        if (userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword()) && userFromDB.getApproved()){
+        if (userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword())
+                && userFromDB.getApproved() != null && userFromDB.getApproved()) {
             return userFromDB;
-        }else{
+        } else {
             return null;
         }
     }
