@@ -1,8 +1,12 @@
 package com.app.matrimonial.controller;
 
 
+import com.app.matrimonial.model.Borrowing;
 import com.app.matrimonial.model.Donation;
 import com.app.matrimonial.service.DonationService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +33,20 @@ public class DonationController {
     }
 
     @GetMapping("get/approved")
-    public ResponseEntity<List<Donation>> getAllApprovedDonations() {
+    public ResponseEntity<JsonNode> getAllApprovedDonations() {
         try {
             List<Donation> donationList=donationService.getAllApprovedDonations();
             if (donationList!=null && donationList.size()>0){
-                return ResponseEntity.ok(donationList);
+                double total=0;
+                for (Donation donation:donationList){
+                    total+=donation.getAmount();
+                }
+                ObjectMapper objectMapper=new ObjectMapper();
+                JsonNode jsonNode=objectMapper.createObjectNode();
+                ((ObjectNode) jsonNode).put("totalAmount", total);
+                ((ObjectNode) jsonNode).putPOJO("data", donationList);
+
+                return ResponseEntity.ok(jsonNode);
             }else{
                 return ResponseEntity.notFound().build();
             }

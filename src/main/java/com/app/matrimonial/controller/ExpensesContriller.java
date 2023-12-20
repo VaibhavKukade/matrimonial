@@ -1,7 +1,11 @@
 package com.app.matrimonial.controller;
 
+import com.app.matrimonial.model.Borrowing;
 import com.app.matrimonial.model.Expenses;
 import com.app.matrimonial.service.ExpensesService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +34,20 @@ public class ExpensesContriller {
 
     // Get All Expenses
     @GetMapping("/getAll")
-    public ResponseEntity<List<Expenses>> getAllExpenses() {
+    public ResponseEntity<JsonNode> getAllExpenses() {
         List<Expenses> expenses = expensesService.findAll();
+        if (expenses!=null && expenses.size()>0){
+            double total=0;
+            for (Expenses expenses1:expenses){
+                total+=expenses1.getAmount();
+            }
+            ObjectMapper objectMapper=new ObjectMapper();
+            JsonNode jsonNode=objectMapper.createObjectNode();
+            ((ObjectNode) jsonNode).put("totalAmount", total);
+            ((ObjectNode) jsonNode).putPOJO("data", expenses);
+
+            return ResponseEntity.ok(jsonNode);
+        }
         return ResponseEntity.ok(expenses);
     }
 

@@ -3,11 +3,15 @@ package com.app.matrimonial.controller;
 import com.app.matrimonial.model.Borrowing;
 import com.app.matrimonial.model.Donation;
 import com.app.matrimonial.service.BorrowingService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Formattable;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,11 +72,20 @@ public class BorrowingController {
     }
 
     @GetMapping("/get/approved")
-    public ResponseEntity<List<Borrowing>> getApprovedBorrowing() {
+    public ResponseEntity<JsonNode> getApprovedBorrowing() {
         try {
             List<Borrowing> borrowingList=borrowingService.getApprovedBorrowing();
             if (borrowingList!=null && borrowingList.size()>0){
-                return ResponseEntity.ok(borrowingList);
+                double total=0;
+                for (Borrowing borrowing:borrowingList){
+                    total+=borrowing.getAmount();
+                }
+                ObjectMapper objectMapper=new ObjectMapper();
+                JsonNode jsonNode=objectMapper.createObjectNode();
+                ((ObjectNode) jsonNode).put("totalAmount", total);
+                ((ObjectNode) jsonNode).putPOJO("data", borrowingList);
+
+                return ResponseEntity.ok(jsonNode);
             }else{
                 return ResponseEntity.notFound().build();
             }
