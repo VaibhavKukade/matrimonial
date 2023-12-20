@@ -15,7 +15,7 @@ public interface DonationRepository extends JpaRepository<Donation,Long> {
     @Query("SELECT d from Donation d where  d.status is null")
     List<Donation> getUnapprovedDonations();
 
-    @Query("SELECT d from Donation d where  d.status is true ")
+    @Query("SELECT d from Donation d where  d.status = true ")
     List<Donation> getApprovedDonations();
 
     @Query("SELECT d from Donation d where  d.username=?1")
