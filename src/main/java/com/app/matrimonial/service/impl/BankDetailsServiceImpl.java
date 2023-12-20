@@ -6,6 +6,8 @@ import com.app.matrimonial.service.BankDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BankDetailsServiceImpl implements BankDetailsService {
 
@@ -14,11 +16,12 @@ public class BankDetailsServiceImpl implements BankDetailsService {
 
     @Override
     public BankDetails saveDetails(BankDetails bankDetails) {
+
         return bankDetailsRepository.save(bankDetails);
     }
 
     @Override
-    public  BankDetails get(){
+    public List<BankDetails> get(){
         return bankDetailsRepository.get();
     }
 

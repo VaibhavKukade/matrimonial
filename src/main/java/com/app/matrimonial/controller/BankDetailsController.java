@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/bank/")
 public class BankDetailsController {
@@ -26,8 +28,8 @@ public class BankDetailsController {
     }
 
     @GetMapping("get")
-    public ResponseEntity<BankDetails> getBankDetails() {
-        BankDetails bankDetails = bankDetailsService.get();
+    public ResponseEntity<List<BankDetails>> getBankDetails() {
+        List<BankDetails> bankDetails = bankDetailsService.get();
         if (bankDetails == null) {
             return  ResponseEntity.notFound().build();
         } else {
