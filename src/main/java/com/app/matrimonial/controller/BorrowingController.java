@@ -2,7 +2,6 @@ package com.app.matrimonial.controller;
 
 import com.app.matrimonial.model.Borrowing;
 import com.app.matrimonial.model.Donation;
-import com.app.matrimonial.model.Expenses;
 import com.app.matrimonial.service.BorrowingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,10 +59,10 @@ public class BorrowingController {
             if (borrowingList!=null && borrowingList.size()>0){
                 return ResponseEntity.ok(borrowingList);
             }else{
-                return (ResponseEntity<List<Borrowing>>) ResponseEntity.notFound();
+                return  ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return (ResponseEntity<List<Borrowing>>) ResponseEntity.internalServerError();
+            return  ResponseEntity.internalServerError().build();
         }
 
     }
@@ -75,10 +74,10 @@ public class BorrowingController {
             if (borrowingList!=null && borrowingList.size()>0){
                 return ResponseEntity.ok(borrowingList);
             }else{
-                return (ResponseEntity<List<Borrowing>>) ResponseEntity.notFound();
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return (ResponseEntity<List<Borrowing>>) ResponseEntity.internalServerError();
+            return  ResponseEntity.internalServerError().build();
         }
 
     }
@@ -90,10 +89,10 @@ public class BorrowingController {
             if (borrowingList!=null && borrowingList.size()>0){
                 return ResponseEntity.ok(borrowingList);
             }else{
-                return (ResponseEntity<List<Borrowing>>) ResponseEntity.notFound();
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return (ResponseEntity<List<Borrowing>>) ResponseEntity.internalServerError();
+            return  ResponseEntity.internalServerError().build();
         }
 
     }

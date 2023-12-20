@@ -29,7 +29,7 @@ public class BankDetailsController {
     public ResponseEntity<BankDetails> getBankDetails() {
         BankDetails bankDetails = bankDetailsService.get();
         if (bankDetails == null) {
-            return (ResponseEntity<BankDetails>) ResponseEntity.notFound();
+            return  ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(bankDetails);
         }

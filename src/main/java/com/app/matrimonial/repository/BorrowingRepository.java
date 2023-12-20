@@ -14,7 +14,7 @@ public interface BorrowingRepository extends JpaRepository<Borrowing, Integer> {
     @Query("SELECT b from Borrowing  b where  b.status is null")
     List<Borrowing> getUnapprovedBorrowing();
 
-    @Query("SELECT b from Borrowing b where  b.status is true ")
+    @Query("SELECT b from Borrowing b where  b.status = true ")
     List<Borrowing> getApprovedBorrowing();
 
     @Query("SELECT b from Borrowing b where  b.borrowerName=?1")

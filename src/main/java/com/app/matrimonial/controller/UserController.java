@@ -37,7 +37,7 @@ public class UserController {
         if (updateUser!=null){
             return ResponseEntity.ok("User updated successfully");
         }else{
-            return (ResponseEntity<String>) ResponseEntity.noContent();
+            return  ResponseEntity.noContent().build();
         }
     }
 
@@ -64,7 +64,7 @@ public class UserController {
         if (users!=null && users.size()>0) {
             return ResponseEntity.ok(users);
         }else{
-            return (ResponseEntity<List<Users>>) ResponseEntity.noContent();
+            return  ResponseEntity.noContent().build();
         }
     }
 

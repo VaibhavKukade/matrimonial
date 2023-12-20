@@ -35,10 +35,10 @@ public class DonationController {
             if (donationList!=null && donationList.size()>0){
                 return ResponseEntity.ok(donationList);
             }else{
-                return (ResponseEntity<List<Donation>>) ResponseEntity.notFound();
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return (ResponseEntity<List<Donation>>) ResponseEntity.internalServerError();
+            return  ResponseEntity.internalServerError().build();
         }
 
     }
@@ -50,10 +50,10 @@ public class DonationController {
             if (donationList!=null && donationList.size()>0){
                 return ResponseEntity.ok(donationList);
             }else{
-                return (ResponseEntity<List<Donation>>) ResponseEntity.notFound();
+                return  ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return (ResponseEntity<List<Donation>>) ResponseEntity.internalServerError();
+            return ResponseEntity.internalServerError().build();
         }
 
     }
@@ -65,10 +65,10 @@ public class DonationController {
             if (donationList!=null && donationList.size()>0){
                 return ResponseEntity.ok(donationList);
             }else{
-                return (ResponseEntity<List<Donation>>) ResponseEntity.notFound();
+                return  ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return (ResponseEntity<List<Donation>>) ResponseEntity.internalServerError();
+            return  ResponseEntity.internalServerError().build();
         }
 
     }
@@ -79,10 +79,10 @@ public class DonationController {
             if (donationList!=null && donationList.size()>0){
                 return ResponseEntity.ok(donationList);
             }else{
-                return (ResponseEntity<List<Donation>>) ResponseEntity.notFound();
+                return  ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
-            return (ResponseEntity<List<Donation>>) ResponseEntity.internalServerError();
+            return  ResponseEntity.internalServerError().build();
         }
 
     }
