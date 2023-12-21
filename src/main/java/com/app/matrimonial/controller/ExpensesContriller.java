@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,9 +38,9 @@ public class ExpensesContriller {
     public ResponseEntity<JsonNode> getAllExpenses() {
         List<Expenses> expenses = expensesService.findAll();
         if (expenses!=null && expenses.size()>0){
-            double total=0;
+            double total= 0;
             for (Expenses expenses1:expenses){
-                total+=expenses1.getAmount();
+                total+=expenses1.getAmount().doubleValue();
             }
             ObjectMapper objectMapper=new ObjectMapper();
             JsonNode jsonNode=objectMapper.createObjectNode();
@@ -47,8 +48,9 @@ public class ExpensesContriller {
             ((ObjectNode) jsonNode).putPOJO("data", expenses);
 
             return ResponseEntity.ok(jsonNode);
+        }else {
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(expenses);
     }
 
     // Get Expense by ID
