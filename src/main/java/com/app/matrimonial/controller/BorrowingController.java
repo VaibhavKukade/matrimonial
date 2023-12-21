@@ -78,7 +78,7 @@ public class BorrowingController {
             if (borrowingList!=null && borrowingList.size()>0){
                 double total=0;
                 for (Borrowing borrowing:borrowingList){
-                    total+=borrowing.getAmount();
+                    total+=borrowing.getAmount()!=null?borrowing.getAmount():0;
                 }
                 ObjectMapper objectMapper=new ObjectMapper();
                 JsonNode jsonNode=objectMapper.createObjectNode();

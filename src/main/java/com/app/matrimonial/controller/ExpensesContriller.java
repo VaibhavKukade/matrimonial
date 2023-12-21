@@ -40,7 +40,7 @@ public class ExpensesContriller {
         if (expenses!=null && expenses.size()>0){
             double total= 0;
             for (Expenses expenses1:expenses){
-                total+=expenses1.getAmount().doubleValue();
+                total+=expenses1.getAmount()!=null?expenses1.getAmount().doubleValue():0;
             }
             ObjectMapper objectMapper=new ObjectMapper();
             JsonNode jsonNode=objectMapper.createObjectNode();

@@ -39,7 +39,7 @@ public class DonationController {
             if (donationList!=null && donationList.size()>0){
                 double total=0;
                 for (Donation donation:donationList){
-                    total+=donation.getAmount();
+                    total+=donation.getAmount()!=null?donation.getAmount():0;
                 }
                 ObjectMapper objectMapper=new ObjectMapper();
                 JsonNode jsonNode=objectMapper.createObjectNode();
