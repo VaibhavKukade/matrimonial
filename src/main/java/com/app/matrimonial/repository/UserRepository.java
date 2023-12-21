@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<Users, Long> {
     List<Users> findUnapprovedUsers();
 
     Users findByUsername(String username);
+
+    @Query("select  u from Users u where u.email=?1")
+    Users findByEmail(String email);
 }

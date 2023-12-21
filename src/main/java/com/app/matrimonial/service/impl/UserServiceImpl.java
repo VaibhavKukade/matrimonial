@@ -50,11 +50,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users authenticateUser(Users loginUser) {
-        Users userFromDB = userRepository.findByUsername(loginUser.getUsername());
+    public Users findUserByUsername(String username){
+        try {
+            return userRepository.findByUsername(username);
+        }catch (Exception e){
+            return null;
+        }
+    }
 
-        // Check if the user exists and the password matches
-//        return userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword());
+    @Override
+    public Users authenticateUser(Users loginUser) {
+        Users userFromDB = userRepository.findByEmail(loginUser.getEmail());
+
         if (userFromDB != null && userFromDB.getPassword().equals(loginUser.getPassword())
                 && userFromDB.getApproved() != null && userFromDB.getApproved()) {
             return userFromDB;

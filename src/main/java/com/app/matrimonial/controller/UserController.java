@@ -55,13 +55,23 @@ public class UserController {
         if (isAuthenticated!=null){
             return ResponseEntity.ok(isAuthenticated);
         }else{
-            return (ResponseEntity<Users>) ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
     @GetMapping("/getAllUser/unapproved")
     public ResponseEntity<List<Users>> getAllUnapprovedUsers() {
         List<Users> users = userService.findUnapprovedUsers();
         if (users!=null && users.size()>0) {
+            return ResponseEntity.ok(users);
+        }else{
+            return  ResponseEntity.noContent().build();
+        }
+    }
+
+    @GetMapping("/getUser/username")
+    public ResponseEntity<Users> getUserByUsername(@RequestParam String username) {
+        Users users = userService.findUserByUsername(username);
+        if (users!=null) {
             return ResponseEntity.ok(users);
         }else{
             return  ResponseEntity.noContent().build();

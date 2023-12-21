@@ -16,4 +16,5 @@ public interface UserService {
     List<Users> findUnapprovedUsers();
 
     Users authenticateUser(Users loginUser);
+    Users findUserByUsername(String username);
 }

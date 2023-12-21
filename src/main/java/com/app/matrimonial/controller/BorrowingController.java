@@ -102,7 +102,7 @@ public class BorrowingController {
             if (borrowingList!=null && borrowingList.size()>0){
                 return ResponseEntity.ok(borrowingList);
             }else{
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.noContent().build();
             }
         } catch (Exception e) {
             return  ResponseEntity.internalServerError().build();

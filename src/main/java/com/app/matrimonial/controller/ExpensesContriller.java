@@ -37,18 +37,18 @@ public class ExpensesContriller {
     @GetMapping("/getAll")
     public ResponseEntity<JsonNode> getAllExpenses() {
         List<Expenses> expenses = expensesService.findAll();
-        if (expenses!=null && expenses.size()>0){
-            double total= 0;
-            for (Expenses expenses1:expenses){
-                total+=expenses1.getAmount()!=null?expenses1.getAmount().doubleValue():0;
+        if (expenses != null && expenses.size() > 0) {
+            double total = 0;
+            for (Expenses expenses1 : expenses) {
+                total += expenses1.getAmount() != null ? expenses1.getAmount().doubleValue() : 0;
             }
-            ObjectMapper objectMapper=new ObjectMapper();
-            JsonNode jsonNode=objectMapper.createObjectNode();
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.createObjectNode();
             ((ObjectNode) jsonNode).put("totalAmount", total);
             ((ObjectNode) jsonNode).putPOJO("data", expenses);
 
             return ResponseEntity.ok(jsonNode);
-        }else {
+        } else {
             return ResponseEntity.noContent().build();
         }
     }
@@ -59,5 +59,5 @@ public class ExpensesContriller {
         Optional<Expenses> expense = expensesService.findById(id);
         return expense.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-    }
+}
 
