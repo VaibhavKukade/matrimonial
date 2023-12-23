@@ -11,7 +11,7 @@ public interface  ExpensesService {
 
     Expenses AddDetails(Expenses expense);
 
-    List<Expenses> findAll();
+    List<Expenses> findAll(String filter);
 
     Optional<Expenses> findById(Long id);
 }

@@ -33,9 +33,9 @@ public class DonationController {
     }
 
     @GetMapping("get/approved")
-    public ResponseEntity<JsonNode> getAllApprovedDonations() {
+    public ResponseEntity<JsonNode> getAllApprovedDonations(@RequestParam String filter) {
         try {
-            List<Donation> donationList=donationService.getAllApprovedDonations();
+            List<Donation> donationList=donationService.getAllApprovedDonations(filter);
             if (donationList!=null && donationList.size()>0){
                 double total=0;
                 for (Donation donation:donationList){
@@ -86,13 +86,22 @@ public class DonationController {
 
     }
     @GetMapping("get/byusername")
-    public ResponseEntity<List<Donation>> getDonationsByUsername(@RequestParam String  username) {
+    public ResponseEntity<JsonNode> getDonationsByUsername(@RequestParam String  username) {
         try {
             List<Donation> donationList=donationService.getDonationByUsername(username);
             if (donationList!=null && donationList.size()>0){
-                return ResponseEntity.ok(donationList);
+                double total=0;
+                for (Donation donation:donationList){
+                    total+=donation.getAmount()!=null?donation.getAmount():0;
+                }
+                ObjectMapper objectMapper=new ObjectMapper();
+                JsonNode jsonNode=objectMapper.createObjectNode();
+                ((ObjectNode) jsonNode).put("totalAmount", total);
+                ((ObjectNode) jsonNode).putPOJO("data", donationList);
+
+                return ResponseEntity.ok(jsonNode);
             }else{
-                return  ResponseEntity.notFound().build();
+                return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
             return  ResponseEntity.internalServerError().build();

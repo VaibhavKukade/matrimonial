@@ -12,7 +12,7 @@ public interface DonationService {
     Donation saveSonation(Donation donation);
 
 
-    List<Donation> getAllApprovedDonations();
+    List<Donation> getAllApprovedDonations(String filter);
 
     List<Donation> getAllUnapprovedDonations();
 

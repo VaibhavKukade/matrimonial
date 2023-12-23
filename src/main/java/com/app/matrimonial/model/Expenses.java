@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -30,6 +31,10 @@ public class Expenses {
     private String category;
 
     @Column(name = "date_of_expense")
-    private LocalDate dateOfExpense;
+    private Date dateOfExpense;
+
+    @Column(name = "user_id")
+    private String userId;
+
 
 }
