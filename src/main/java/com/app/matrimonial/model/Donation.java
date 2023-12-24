@@ -6,7 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@AllArgsConstructor@Entity
+@AllArgsConstructor
+@Entity
 @Table(name = "donation")
 public class Donation {
 
