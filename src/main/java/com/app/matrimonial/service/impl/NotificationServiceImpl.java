@@ -3,8 +3,6 @@ package com.app.matrimonial.service.impl;
 import com.app.matrimonial.model.Notification;
 import com.app.matrimonial.repository.NotificationRepository;
 import com.app.matrimonial.service.NotificationService;
-import org.aspectj.weaver.ast.Not;
-import org.hibernate.annotations.DialectOverride;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
