@@ -24,6 +24,9 @@ public class Notification {
     @Column(name = "message")
     private String message;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "date")
     private Date date;
 
