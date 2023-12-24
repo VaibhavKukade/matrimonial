@@ -43,5 +43,8 @@ public class Users {
     @Column(name = "approved")
     private Boolean approved;
 
+    @Column(name = "role")
+    private String role;
+
 
 }

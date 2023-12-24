@@ -15,7 +15,7 @@ public interface BorrowingService {
     List<Borrowing> findAll();
 
     List<Borrowing> getUnapprovedBorrowing();
-    List<Borrowing> getApprovedBorrowing();
+    List<Borrowing> getApprovedBorrowing(String filter);
 
     List<Borrowing> getBorrowingByUsername(String username);
 

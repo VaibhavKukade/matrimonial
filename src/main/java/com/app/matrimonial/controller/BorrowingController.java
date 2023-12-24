@@ -72,9 +72,9 @@ public class BorrowingController {
     }
 
     @GetMapping("/get/approved")
-    public ResponseEntity<JsonNode> getApprovedBorrowing() {
+    public ResponseEntity<JsonNode> getApprovedBorrowing(@RequestParam String filter) {
         try {
-            List<Borrowing> borrowingList=borrowingService.getApprovedBorrowing();
+            List<Borrowing> borrowingList=borrowingService.getApprovedBorrowing(filter);
             if (borrowingList!=null && borrowingList.size()>0){
                 double total=0;
                 for (Borrowing borrowing:borrowingList){

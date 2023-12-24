@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -15,8 +16,8 @@ public interface DonationRepository extends JpaRepository<Donation,Long> {
     @Query("SELECT d from Donation d where  d.status is null")
     List<Donation> getUnapprovedDonations();
 
-    @Query("SELECT d from Donation d where  d.status = true ")
-    List<Donation> getApprovedDonations();
+    @Query("SELECT d from Donation d where  d.status = true and (d.date between ?2 and ?1 )")
+    List<Donation> getApprovedDonations(String date,String oldDate);
 
     @Query("SELECT d from Donation d where  d.username=?1")
     List<Donation> getDonationsByUsername(String username);

@@ -35,8 +35,8 @@ public class ExpensesContriller {
 
     // Get All Expenses
     @GetMapping("/getAll")
-    public ResponseEntity<JsonNode> getAllExpenses() {
-        List<Expenses> expenses = expensesService.findAll();
+    public ResponseEntity<JsonNode> getAllExpenses(@RequestParam String filter) {
+        List<Expenses> expenses = expensesService.findAll(filter);
         if (expenses != null && expenses.size() > 0) {
             double total = 0;
             for (Expenses expenses1 : expenses) {
