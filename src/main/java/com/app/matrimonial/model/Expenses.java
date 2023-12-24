@@ -36,5 +36,8 @@ public class Expenses {
     @Column(name = "user_id")
     private String userId;
 
+    @Column(name = "image_name")
+    private String imageName;
+
 
 }
