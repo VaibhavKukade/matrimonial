@@ -9,52 +9,96 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class NotificationService {
 
+//    private Logger logger = LoggerFactory.getLogger(NotificationService.class);
+//
+//
+//    public void sendMessageToToken(NotificationRequest request)
+//            throws InterruptedException, ExecutionException {
+//        Message message = getPreconfiguredMessageToToken(request);
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        String jsonOutput = gson.toJson(message);
+//        String response = sendAndGetResponse(message);
+//        logger.info("Sent message to token. Device token: " + request.getToken() + ", " + response+ " msg "+jsonOutput);
+//    }
+//
+//    private String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException {
+//        return FirebaseMessaging.getInstance().sendAsync(message).get();
+//    }
+//
+//
+//    private AndroidConfig getAndroidConfig(String topic) {
+//        return AndroidConfig.builder()
+//                .setTtl(Duration.ofMinutes(2).toMillis()).setCollapseKey(topic)
+//                .setPriority(AndroidConfig.Priority.HIGH)
+//                .setNotification(AndroidNotification.builder()
+//                        .setTag(topic).build()).build();
+//    }
+//    private ApnsConfig getApnsConfig(String topic) {
+//        return ApnsConfig.builder()
+//                .setAps(Aps.builder().setCategory(topic).setThreadId(topic).build()).build();
+//    }
+//    private Message getPreconfiguredMessageToToken(NotificationRequest request) {
+//        return getPreconfiguredMessageBuilder(request).setToken(request.getToken())
+//                .build();
+//    }
+//
+//    private Message.Builder getPreconfiguredMessageBuilder(NotificationRequest request) {
+//        AndroidConfig androidConfig = getAndroidConfig(request.getTopic());
+//        ApnsConfig apnsConfig = getApnsConfig(request.getTopic());
+//        Notification notification = Notification.builder()
+//                .setTitle(request.getTitle())
+//                .setBody(request.getBody())
+//                .build();
+//        return Message.builder()
+//                .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig).setNotification(notification);
+//    }
+
+
     private Logger logger = LoggerFactory.getLogger(NotificationService.class);
 
-
-    public void sendMessageToToken(NotificationRequest request)
+    public void sendMessageToMultipleTokens(NotificationRequest request)
             throws InterruptedException, ExecutionException {
-        Message message = getPreconfiguredMessageToToken(request);
+        MulticastMessage message = getPreconfiguredMulticastMessage(request, request.getToken());
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String jsonOutput = gson.toJson(message);
-        String response = sendAndGetResponse(message);
-        logger.info("Sent message to token. Device token: " + request.getToken() + ", " + response+ " msg "+jsonOutput);
+        BatchResponse response = sendAndGetResponse(message);
+        logger.info("Sent message to multiple tokens. Response: " + response.getSuccessCount() +
+                " successful, " + response.getFailureCount() + " failed. Message: " + jsonOutput);
     }
 
-    private String sendAndGetResponse(Message message) throws InterruptedException, ExecutionException {
-        return FirebaseMessaging.getInstance().sendAsync(message).get();
+    private BatchResponse sendAndGetResponse(MulticastMessage message) throws InterruptedException, ExecutionException {
+        return FirebaseMessaging.getInstance().sendMulticastAsync(message).get();
     }
-
 
     private AndroidConfig getAndroidConfig(String topic) {
         return AndroidConfig.builder()
-                .setTtl(Duration.ofMinutes(2).toMillis()).setCollapseKey(topic)
+                .setTtl(Duration.ofMinutes(2).toMillis())
+                .setCollapseKey(topic)
                 .setPriority(AndroidConfig.Priority.HIGH)
-                .setNotification(AndroidNotification.builder()
-                        .setTag(topic).build()).build();
-    }
-    private ApnsConfig getApnsConfig(String topic) {
-        return ApnsConfig.builder()
-                .setAps(Aps.builder().setCategory(topic).setThreadId(topic).build()).build();
-    }
-    private Message getPreconfiguredMessageToToken(NotificationRequest request) {
-        return getPreconfiguredMessageBuilder(request).setToken(request.getToken())
+                .setNotification(AndroidNotification.builder().setTag(topic).build())
                 .build();
     }
 
-    private Message.Builder getPreconfiguredMessageBuilder(NotificationRequest request) {
-        AndroidConfig androidConfig = getAndroidConfig(request.getTopic());
-        ApnsConfig apnsConfig = getApnsConfig(request.getTopic());
-        Notification notification = Notification.builder()
-                .setTitle(request.getTitle())
-                .setBody(request.getBody())
+    private ApnsConfig getApnsConfig(String topic) {
+        return ApnsConfig.builder()
+                .setAps(Aps.builder().setCategory(topic).setThreadId(topic).build())
                 .build();
-        return Message.builder()
-                .setApnsConfig(apnsConfig).setAndroidConfig(androidConfig).setNotification(notification);
     }
+
+    private MulticastMessage getPreconfiguredMulticastMessage(NotificationRequest request, List<String> tokens) {
+        return MulticastMessage.builder()
+                .addAllTokens(tokens)
+                .setApnsConfig(getApnsConfig(request.getTopic()))
+                .setAndroidConfig(getAndroidConfig(request.getTopic()))
+                .setNotification(Notification.builder().setTitle(request.getTitle()).setBody(request.getBody()).build())
+                .build();
+    }
+
+
 }
