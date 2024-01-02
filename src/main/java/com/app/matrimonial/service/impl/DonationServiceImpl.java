@@ -54,8 +54,20 @@ public class DonationServiceImpl implements DonationService {
     }
 
     @Override
-    public List<Donation> getAllDonations(){
-        return  donationRepository.findAll();
+    public List<Donation> getAllDonations(String filter){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date date = new Date();
+        try {
+            date = simpleDateFormat.parse(simpleDateFormat.format(date));
+        } catch (Exception e) {
+            return null;
+        }
+        Date oldDate = getOldDate(date, filter, simpleDateFormat);
+        if (oldDate!=null) {
+            return donationRepository.getAllDonations(simpleDateFormat.format(date),simpleDateFormat.format(oldDate));
+        }else{
+            return null;
+        }
     }
 
 

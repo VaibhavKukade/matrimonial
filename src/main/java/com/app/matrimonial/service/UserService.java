@@ -19,5 +19,5 @@ public interface UserService {
     Users authenticateUser(Users loginUser);
     Users findUserByUsername(String username);
 
-    JsonNode getUsersActivities(String username,Long id);
+    JsonNode getUsersActivities(String username,Long id,String filter);
 }

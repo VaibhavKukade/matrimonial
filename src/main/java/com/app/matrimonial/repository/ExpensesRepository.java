@@ -16,6 +16,6 @@ public interface ExpensesRepository extends JpaRepository<Expenses, Integer>
     @Query("SELECT e from Expenses e where  (e.dateOfExpense between ?2 and ?1)")
     List<Expenses> getAll(Date date, Date oldDate);
 
-    @Query("SELECT e from Expenses e where  e.userId=?1")
-    List<Expenses> getExpensesByUserId(Long userId);
+    @Query("SELECT e from Expenses e where  e.userId=?1 and (e.dateOfExpense between ?3 and ?2) order by e.dateOfExpense DESC")
+    List<Expenses> getExpensesByUserId(Long userId,Date date,Date oldDate);
 }

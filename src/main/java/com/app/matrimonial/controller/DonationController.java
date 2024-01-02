@@ -61,9 +61,9 @@ public class DonationController {
     }
 
     @GetMapping("get/all")
-    public ResponseEntity<List<Donation>> getAllDonations() {
+    public ResponseEntity<List<Donation>> getAllDonations(@RequestParam  String filter) {
         try {
-            List<Donation> donationList=donationService.getAllDonations();
+            List<Donation> donationList=donationService.getAllDonations(filter);
             if (donationList!=null && donationList.size()>0){
                 return ResponseEntity.ok(donationList);
             }else{

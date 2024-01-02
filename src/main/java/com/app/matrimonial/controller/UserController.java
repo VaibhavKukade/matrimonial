@@ -83,8 +83,8 @@ public class UserController {
     }
 
     @GetMapping("/user/activities")
-    public ResponseEntity<JsonNode> getUsersActivities(String username,Long id) {
-        JsonNode jsonNode = userService.getUsersActivities(username,id);
+    public ResponseEntity<JsonNode> getUsersActivities(@RequestParam String username,@RequestParam Long id,@RequestParam String filter) {
+        JsonNode jsonNode = userService.getUsersActivities(username,id,filter);
         if (jsonNode == null) {
             return ResponseEntity.noContent().build();
         } else {

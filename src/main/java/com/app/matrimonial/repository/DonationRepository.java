@@ -19,8 +19,14 @@ public interface DonationRepository extends JpaRepository<Donation,Long> {
     @Query("SELECT d from Donation d where  d.status = true and (d.date between ?2 and ?1 )")
     List<Donation> getApprovedDonations(String date,String oldDate);
 
+    @Query("SELECT d from Donation d where   (d.date between ?2 and ?1 )")
+    List<Donation> getAllDonations(String date,String oldDate);
+
     @Query("SELECT d from Donation d where  d.username=?1")
     List<Donation> getDonationsByUsername(String username);
+
+    @Query("SELECT d from Donation d where  d.username=?1 and (d.date between ?3 and ?2 ) order by d.date DESC ")
+    List<Donation> getAllDonationsByUsername(String username,String date,String oldDate);
 
 
 }

@@ -12,7 +12,7 @@ public interface BorrowingService {
 
     Borrowing AddDetails(Borrowing borrowing);
 
-    List<Borrowing> findAll();
+    List<Borrowing> findAll(String filter);
 
     List<Borrowing> getUnapprovedBorrowing();
     List<Borrowing> getApprovedBorrowing(String filter);

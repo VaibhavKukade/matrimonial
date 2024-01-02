@@ -52,8 +52,9 @@ public class BorrowingController {
 
     // Get All Expenses
     @GetMapping("/getAll")
-    public ResponseEntity<List<Borrowing>> getAllExpenses() {
-        List<Borrowing> borrowing = borrowingService.findAll();
+    public ResponseEntity<List<Borrowing>> getAllExpenses(@RequestParam String filter) {
+
+        List<Borrowing> borrowing = borrowingService.findAll(filter);
         if (borrowing!=null && borrowing.size()>0) {
             return ResponseEntity.ok(borrowing);
         }else{

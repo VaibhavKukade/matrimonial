@@ -19,7 +19,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -54,8 +59,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users updateUser(Users newUser) {
-        Users user=userRepository.save(newUser);
-        return  user;
+        Users user = userRepository.save(newUser);
+        return user;
     }
 
 
@@ -65,15 +70,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Users> findUnapprovedUsers(){
+    public List<Users> findUnapprovedUsers() {
         return userRepository.findUnapprovedUsers();
     }
 
     @Override
-    public Users findUserByUsername(String username){
+    public Users findUserByUsername(String username) {
         try {
             return userRepository.findByUsername(username);
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -91,36 +96,58 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JsonNode getUsersActivities(String username,Long id){
+    public JsonNode getUsersActivities(String username, Long id, String filter) {
 
-            List<Donation> donations=donationRepository.getDonationsByUsername(username);
-            List<Borrowing> borrowings=borrowingRepository.getBorrowingByUserId(id);
-            List<Expenses> expenses=expensesRepository.getExpensesByUserId(id);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date date = new Date();
+        try {
+            date = simpleDateFormat.parse(simpleDateFormat.format(date));
+        } catch (Exception e) {
+            return null;
+        }
+        Date oldDate = getOldDate(date, filter, simpleDateFormat);
 
-            Double donationAmount=0d;
-            Double borrowingAmount=0d;
-            Double expensesAmount=0d;
+        List<Donation> donations = donationRepository.getAllDonationsByUsername(username, simpleDateFormat.format(date), simpleDateFormat.format(oldDate));
+        List<Borrowing> borrowings = borrowingRepository.getBorrowingByUserId(id, date, oldDate);
+        List<Expenses> expenses = expensesRepository.getExpensesByUserId(id, date, oldDate);
 
-            donationAmount = donations.stream()
-                    .filter(Donation::getStatus)
-                    .mapToDouble(Donation::getAmount)
-                    .sum();
 
-            borrowingAmount = borrowings.stream()
-                    .filter(Borrowing::getStatus)
-                    .mapToDouble(Borrowing::getAmount)
-                    .sum();
+        donations = donations.stream()
+                .filter(Donation::getStatus).
+                collect(Collectors.toList());
 
-            expensesAmount = expenses.stream()
-                    .mapToDouble(expense -> expense.getAmount().doubleValue())
-                    .sum();
+        borrowings = borrowings.stream()
+                .filter(Borrowing::getStatus)
+                .collect(Collectors.toList());
 
-            ObjectMapper objectMapper=new ObjectMapper();
-            JsonNode jsonNode=objectMapper.createObjectNode();
-            ((ObjectNode) jsonNode).put("totalDonation", donationAmount);
-            ((ObjectNode) jsonNode).putPOJO("totalBorrowing", borrowingAmount);
-            ((ObjectNode) jsonNode).putPOJO("totalExpenses", expensesAmount);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.createObjectNode();
+        ((ObjectNode) jsonNode).putPOJO("Donation", donations);
+        ((ObjectNode) jsonNode).putPOJO("Borrowing", borrowings);
+        ((ObjectNode) jsonNode).putPOJO("Expenses", expenses);
 
-            return jsonNode;
+        return jsonNode;
+    }
+
+    private Date getOldDate(Date date, String filter, SimpleDateFormat simpleDateFormat) {
+        LocalDateTime oldLocalDate = null;
+        if (filter.equalsIgnoreCase("Day")) {
+            oldLocalDate = LocalDateTime.now().minusHours(24);
+        } else if (filter.equalsIgnoreCase("Week")) {
+            oldLocalDate = LocalDateTime.now().minusWeeks(1);
+        } else if (filter.equalsIgnoreCase("Month")) {
+            oldLocalDate = LocalDateTime.now().minusDays(30);
+        } else if (filter.equalsIgnoreCase("all")) {
+            oldLocalDate = LocalDateTime.of(2023, 01, 01, 0, 0, 0);
+        }
+
+        Date oldDate = Date.from(oldLocalDate.atZone(ZoneId.systemDefault()).toInstant());
+        Date formattedDate = null;
+        try {
+            formattedDate = simpleDateFormat.parse(simpleDateFormat.format(oldDate));
+        } catch (Exception e) {
+            return null;
+        }
+        return formattedDate;
     }
 }

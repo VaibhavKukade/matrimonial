@@ -28,8 +28,20 @@ public class BorrowingServiceImpl implements BorrowingService {
     }
 
     @Override
-    public List<Borrowing> findAll() {
-        return borrowingRepository.findAll();
+    public List<Borrowing> findAll(String filter) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date date = new Date();
+        try {
+            date = simpleDateFormat.parse(simpleDateFormat.format(date));
+        } catch (Exception e) {
+            return null;
+        }
+        Date oldDate = getOldDate(date, filter, simpleDateFormat);
+        if (oldDate != null) {
+            return borrowingRepository.getAllBorrowing(date, oldDate);
+        } else {
+            return null;
+        }
     }
 
     @Override
