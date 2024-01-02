@@ -57,7 +57,7 @@ public class ExpensesContriller {
     @GetMapping("/{id}")
     public ResponseEntity<Expenses> getExpenseById(@PathVariable Long id) {
         Optional<Expenses> expense = expensesService.findById(id);
-        return expense.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return expense.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 }
 

@@ -3,6 +3,9 @@ package com.app.matrimonial.controller;
 
 import com.app.matrimonial.model.Users;
 import com.app.matrimonial.service.UserService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +37,10 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<String> updateUser(@RequestBody Users newUser) {
         Users updateUser = userService.updateUser(newUser);
-        if (updateUser!=null){
+        if (updateUser != null) {
             return ResponseEntity.ok("User updated successfully");
-        }else{
-            return  ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.noContent().build();
         }
     }
 
@@ -52,30 +55,42 @@ public class UserController {
         // Implement login logic using userService or authentication service
         Users isAuthenticated = userService.authenticateUser(loginUser);
 
-        if (isAuthenticated!=null){
+        if (isAuthenticated != null) {
             return ResponseEntity.ok(isAuthenticated);
-        }else{
-            return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
     @GetMapping("/getAllUser/unapproved")
     public ResponseEntity<List<Users>> getAllUnapprovedUsers() {
         List<Users> users = userService.findUnapprovedUsers();
-        if (users!=null && users.size()>0) {
+        if (users != null && users.size() > 0) {
             return ResponseEntity.ok(users);
-        }else{
-            return  ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.noContent().build();
         }
     }
 
     @GetMapping("/getUser/username")
     public ResponseEntity<Users> getUserByUsername(@RequestParam String username) {
         Users users = userService.findUserByUsername(username);
-        if (users!=null) {
+        if (users != null) {
             return ResponseEntity.ok(users);
-        }else{
-            return  ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.noContent().build();
         }
+    }
+
+    @GetMapping("/user/activities")
+    public ResponseEntity<JsonNode> getUsersActivities(String username,Long id) {
+        JsonNode jsonNode = userService.getUsersActivities(username,id);
+        if (jsonNode == null) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(jsonNode);
+        }
+
     }
 
 }

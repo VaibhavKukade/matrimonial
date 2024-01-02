@@ -18,11 +18,10 @@ public class Borrowing {
     @Column(name = "borrowing_id")
     private int borrowingId;
 
-
     @Column(name = "amount")
     private Double amount;
 
-    @Column(name = "note",columnDefinition = "TEXT")
+    @Column(name = "note", columnDefinition = "TEXT")
     private String note;
 
     @Column(name = "borrower_name")
@@ -36,8 +35,12 @@ public class Borrowing {
 
     @Column(name = "status")
     private Boolean status;
+
     @Column(name = "user_id")
     private long userId;
+
+    @Column(name = "image_name")
+    private String imageName;
 
 }
 

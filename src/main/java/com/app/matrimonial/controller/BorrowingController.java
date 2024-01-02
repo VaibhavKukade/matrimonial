@@ -24,8 +24,12 @@ public class BorrowingController {
     @PostMapping("/addBorrowing")
     public ResponseEntity<String> addExpense(@RequestBody Borrowing borrowing) {
         try {
-            borrowingService.AddDetails(borrowing);
-            return ResponseEntity.ok("Borrowing added successfully");
+            Borrowing save=borrowingService.AddDetails(borrowing);
+            if (save!=null) {
+                return ResponseEntity.ok("Borrowing added successfully");
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add expense");
         }
@@ -34,8 +38,12 @@ public class BorrowingController {
     @PutMapping("/updateBorrowing")
     public ResponseEntity<String> UpdateExpense(@RequestBody Borrowing borrowing) {
         try {
-            borrowingService.AddDetails(borrowing);
-            return ResponseEntity.ok("Borrowing added successfully");
+            Borrowing update=borrowingService.AddDetails(borrowing);
+            if (update!=null) {
+                return ResponseEntity.ok("Borrowing added successfully");
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add expense");
         }
@@ -46,14 +54,18 @@ public class BorrowingController {
     @GetMapping("/getAll")
     public ResponseEntity<List<Borrowing>> getAllExpenses() {
         List<Borrowing> borrowing = borrowingService.findAll();
-        return ResponseEntity.ok(borrowing);
+        if (borrowing!=null && borrowing.size()>0) {
+            return ResponseEntity.ok(borrowing);
+        }else{
+            return ResponseEntity.noContent().build();
+        }
     }
 
     // Get Expense by ID
     @GetMapping("/{id}")
     public ResponseEntity<Borrowing> getBorrowingById(@PathVariable Long id) {
         Optional<Borrowing> borrowing = borrowingService.findById(id);
-        return borrowing.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return borrowing.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
     @GetMapping("/get/unapproved")
@@ -63,7 +75,7 @@ public class BorrowingController {
             if (borrowingList!=null && borrowingList.size()>0){
                 return ResponseEntity.ok(borrowingList);
             }else{
-                return  ResponseEntity.notFound().build();
+                return  ResponseEntity.noContent().build();
             }
         } catch (Exception e) {
             return  ResponseEntity.internalServerError().build();
@@ -87,7 +99,7 @@ public class BorrowingController {
 
                 return ResponseEntity.ok(jsonNode);
             }else{
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.noContent().build();
             }
         } catch (Exception e) {
             return  ResponseEntity.internalServerError().build();

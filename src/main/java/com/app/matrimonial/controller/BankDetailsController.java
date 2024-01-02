@@ -20,8 +20,12 @@ public class BankDetailsController {
     @PostMapping("details/save")
     public ResponseEntity<String> saveBankDetails(@RequestBody BankDetails bankDetails) {
         try {
-            bankDetailsService.saveDetails(bankDetails);
-            return ResponseEntity.ok("Bank Details added successfully");
+            BankDetails save=bankDetailsService.saveDetails(bankDetails);
+            if (save!=null) {
+                return ResponseEntity.ok("Bank Details added successfully");
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add details");
         }
@@ -31,7 +35,7 @@ public class BankDetailsController {
     public ResponseEntity<List<BankDetails>> getBankDetails() {
         List<BankDetails> bankDetails = bankDetailsService.get();
         if (bankDetails == null) {
-            return  ResponseEntity.notFound().build();
+            return  ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(bankDetails);
         }
@@ -40,8 +44,12 @@ public class BankDetailsController {
     @PutMapping("details/update")
     public ResponseEntity<String> updateBankDetails(@RequestBody BankDetails bankDetails) {
         try {
-            bankDetailsService.saveDetails(bankDetails);
-            return ResponseEntity.ok("Bank Details updated  successfully");
+            BankDetails update=bankDetailsService.saveDetails(bankDetails);
+            if (update!=null) {
+                return ResponseEntity.ok("Bank Details updated  successfully");
+            }else {
+                return ResponseEntity.badRequest().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update details");
         }

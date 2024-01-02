@@ -1,6 +1,7 @@
 package com.app.matrimonial.service;
 
 import com.app.matrimonial.model.Users;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UserService {
 
     Users authenticateUser(Users loginUser);
     Users findUserByUsername(String username);
+
+    JsonNode getUsersActivities(String username,Long id);
 }

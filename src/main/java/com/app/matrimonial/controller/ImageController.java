@@ -33,7 +33,7 @@ public class ImageController {
                         .contentType(MediaType.IMAGE_PNG)
                         .body(imageData);
             } else {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.noContent().build();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -24,8 +24,12 @@ public class DonationController {
     @PostMapping("save")
     public ResponseEntity<String> saveDonation(@RequestBody Donation donation) {
         try {
-            donationService.saveSonation(donation);
-            return ResponseEntity.ok("Donation added successfully");
+            Donation save=donationService.saveSonation(donation);
+            if (save!=null) {
+                return ResponseEntity.ok("Donation added successfully");
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add details");
         }
@@ -48,7 +52,7 @@ public class DonationController {
 
                 return ResponseEntity.ok(jsonNode);
             }else{
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.noContent().build();
             }
         } catch (Exception e) {
             return  ResponseEntity.internalServerError().build();
@@ -63,7 +67,7 @@ public class DonationController {
             if (donationList!=null && donationList.size()>0){
                 return ResponseEntity.ok(donationList);
             }else{
-                return  ResponseEntity.notFound().build();
+                return  ResponseEntity.noContent().build();
             }
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
@@ -78,7 +82,7 @@ public class DonationController {
             if (donationList!=null && donationList.size()>0){
                 return ResponseEntity.ok(donationList);
             }else{
-                return  ResponseEntity.notFound().build();
+                return  ResponseEntity.noContent().build();
             }
         } catch (Exception e) {
             return  ResponseEntity.internalServerError().build();
@@ -101,7 +105,7 @@ public class DonationController {
 
                 return ResponseEntity.ok(jsonNode);
             }else{
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.noContent().build();
             }
         } catch (Exception e) {
             return  ResponseEntity.internalServerError().build();
@@ -112,8 +116,12 @@ public class DonationController {
     @PutMapping("update")
     public ResponseEntity<String> updateDonation(@RequestBody Donation donation){
         try {
-            donationService.saveSonation(donation);
-            return ResponseEntity.ok("Donation updated successfully");
+            Donation update=donationService.saveSonation(donation);
+            if (update!=null) {
+                return ResponseEntity.ok("Donation updated successfully");
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update details");
         }
