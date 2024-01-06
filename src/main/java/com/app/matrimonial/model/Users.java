@@ -46,5 +46,30 @@ public class Users {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "profile_pic")
+    private String profile_pic;
+
+
+    @Column(name = "bank_name")
+    private String bank_name;
+
+    @Column(name = "accountNo")
+    private String accountNo;
+
+    @Column(name = "ifscCode")
+    private String ifscCode;
+
+    @Column(name = "upiId")
+    private String upiId;
+
+    @Column(name = "imageName")
+    private String imageName;
+
+    @Column(name = "status")
+    private Boolean status;
+
+    @Column(name = "created_date")
+    private String  created_date;
+
 
 }

@@ -122,6 +122,21 @@ public class BorrowingController {
         }
 
     }
+
+    @GetMapping("/get/bycontactnumber")
+    public ResponseEntity<List<Borrowing>> getBorrowingByContactNumber(@RequestParam  String contactNumber) {
+        try {
+            List<Borrowing> borrowingList=borrowingService.getDonationByContactNumber(contactNumber);
+            if (borrowingList!=null && borrowingList.size()>0){
+                return ResponseEntity.ok(borrowingList);
+            }else{
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            return  ResponseEntity.internalServerError().build();
+        }
+
+    }
 }
 
 

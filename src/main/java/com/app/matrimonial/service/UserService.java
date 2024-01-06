@@ -20,4 +20,7 @@ public interface UserService {
     Users findUserByUsername(String username);
 
     JsonNode getUsersActivities(String username,Long id,String filter);
+    Users getUserByContactNumber(String contactno);
+
+    JsonNode  getUser(String filter);
 }

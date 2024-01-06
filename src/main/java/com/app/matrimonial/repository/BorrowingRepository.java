@@ -24,6 +24,9 @@ public interface BorrowingRepository extends JpaRepository<Borrowing, Integer> {
     @Query("SELECT b from Borrowing b where  b.borrowerName=?1")
     List<Borrowing> getBorrowingByUsername(String borrowerName);
 
+    @Query("SELECT b from Borrowing b where  b.userId=?1")
+    List<Borrowing> getByUserId(Long id);
+
     @Query("SELECT b from Borrowing b where  b.userId=?1 and (b.borrowedDate between ?3 and ?2) order by b.borrowedDate  desc")
     List<Borrowing> getBorrowingByUserId(Long userId,Date date,Date oldDate);
 }

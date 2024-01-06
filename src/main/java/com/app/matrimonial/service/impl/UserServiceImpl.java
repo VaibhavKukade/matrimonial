@@ -52,6 +52,10 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(newUser.getEmail())) {
             return "Email is already registered";
         }
+        Users users = userRepository.existsByMobileNumber(newUser.getMobileNo());
+        if (users != null) {
+            return "Mobile Number is already registered";
+        }
 
         userRepository.save(newUser);
         return "User registered successfully";
@@ -127,6 +131,51 @@ public class UserServiceImpl implements UserService {
         ((ObjectNode) jsonNode).putPOJO("Expenses", expenses);
 
         return jsonNode;
+    }
+
+    @Override
+    public Users getUserByContactNumber(String contactno) {
+        Users user = userRepository.getUsersByMobileNo(contactno);
+        if (user != null) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public JsonNode getUser(String filter) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date date = new Date();
+        try {
+            date = simpleDateFormat.parse(simpleDateFormat.format(date));
+        } catch (Exception e) {
+            return null;
+        }
+        Date oldDate = getOldDate(date, filter, simpleDateFormat);
+        if (oldDate != null) {
+            List<Users> users = userRepository.getUsers(simpleDateFormat.format(date), simpleDateFormat.format(oldDate));
+            if (users != null && users.size() > 0) {
+                List<Users> approvedUsers = users.stream().filter(user -> user.getApproved()).collect(Collectors.toList());
+                List<Users> unapprovedUsers = users.stream().filter(user -> !user.getApproved()).collect(Collectors.toList());
+                List<Users> pendingUsers = users.stream().filter(user -> user.getApproved() == null).collect(Collectors.toList());
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.createObjectNode();
+                ((ObjectNode) jsonNode).putPOJO("Approved Users", approvedUsers);
+                ((ObjectNode) jsonNode).putPOJO("Unapproved Users", unapprovedUsers);
+                ((ObjectNode) jsonNode).putPOJO("Pending Users", pendingUsers);
+
+                return jsonNode;
+
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+
     }
 
     private Date getOldDate(Date date, String filter, SimpleDateFormat simpleDateFormat) {

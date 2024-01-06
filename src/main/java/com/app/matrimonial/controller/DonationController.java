@@ -113,6 +113,30 @@ public class DonationController {
 
     }
 
+    @GetMapping("get/bycontactnumber")
+    public ResponseEntity<JsonNode> getDonationByContactNumber(@RequestParam String  contactNumber) {
+        try {
+            List<Donation> donationList=donationService.getDonationByContactNumber(contactNumber);
+            if (donationList!=null && donationList.size()>0){
+                double total=0;
+                for (Donation donation:donationList){
+                    total+=donation.getAmount()!=null?donation.getAmount():0;
+                }
+                ObjectMapper objectMapper=new ObjectMapper();
+                JsonNode jsonNode=objectMapper.createObjectNode();
+                ((ObjectNode) jsonNode).put("totalAmount", total);
+                ((ObjectNode) jsonNode).putPOJO("data", donationList);
+
+                return ResponseEntity.ok(jsonNode);
+            }else{
+                return ResponseEntity.noContent().build();
+            }
+        } catch (Exception e) {
+            return  ResponseEntity.internalServerError().build();
+        }
+
+    }
+
     @PutMapping("update")
     public ResponseEntity<String> updateDonation(@RequestBody Donation donation){
         try {

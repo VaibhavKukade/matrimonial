@@ -1,7 +1,9 @@
 package com.app.matrimonial.service.impl;
 
 import com.app.matrimonial.model.Borrowing;
+import com.app.matrimonial.model.Users;
 import com.app.matrimonial.repository.BorrowingRepository;
+import com.app.matrimonial.repository.UserRepository;
 import com.app.matrimonial.service.BorrowingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class BorrowingServiceImpl implements BorrowingService {
 
     @Autowired
     BorrowingRepository borrowingRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public Borrowing AddDetails(Borrowing borrowing) {
@@ -70,6 +75,16 @@ public class BorrowingServiceImpl implements BorrowingService {
     @Override
     public List<Borrowing> getBorrowingByUsername(String username) {
         return borrowingRepository.getBorrowingByUsername(username);
+    }
+
+    @Override
+    public List<Borrowing> getDonationByContactNumber(String contactNumber) {
+        Users users=userRepository.getUsersByMobileNo(contactNumber);
+        if (users!=null){
+            return borrowingRepository.getByUserId(users.getId());
+        }else{
+            return null;
+        }
     }
 
 

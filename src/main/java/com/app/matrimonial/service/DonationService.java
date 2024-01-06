@@ -18,6 +18,8 @@ public interface DonationService {
 
     List<Donation> getDonationByUsername(String username);
 
+    List<Donation> getDonationByContactNumber(String username);
+
     List<Donation> getAllDonations(String filter);
 
 }

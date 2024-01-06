@@ -18,6 +18,7 @@ public interface BorrowingService {
     List<Borrowing> getApprovedBorrowing(String filter);
 
     List<Borrowing> getBorrowingByUsername(String username);
+    List<Borrowing> getDonationByContactNumber(String contactNumber);
 
     Optional<Borrowing> findById(Long id);
 }

@@ -2,7 +2,9 @@ package com.app.matrimonial.service.impl;
 
 
 import com.app.matrimonial.model.Donation;
+import com.app.matrimonial.model.Users;
 import com.app.matrimonial.repository.DonationRepository;
+import com.app.matrimonial.repository.UserRepository;
 import com.app.matrimonial.service.DonationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ public class DonationServiceImpl implements DonationService {
 
     @Autowired
     DonationRepository donationRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public Donation saveSonation(Donation donation){
@@ -51,6 +55,17 @@ public class DonationServiceImpl implements DonationService {
     @Override
     public List<Donation> getDonationByUsername(String username){
         return  donationRepository.getDonationsByUsername(username);
+    }
+
+    @Override
+    public List<Donation> getDonationByContactNumber(String contactNumber){
+        Users user=userRepository.getUsersByMobileNo(contactNumber);
+        if (user!=null){
+            return  donationRepository.getDonationsByUsername(user.getUsername());
+        }else{
+            return null;
+        }
+
     }
 
     @Override

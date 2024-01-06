@@ -83,8 +83,8 @@ public class UserController {
     }
 
     @GetMapping("/user/activities")
-    public ResponseEntity<JsonNode> getUsersActivities(@RequestParam String username,@RequestParam Long id,@RequestParam String filter) {
-        JsonNode jsonNode = userService.getUsersActivities(username,id,filter);
+    public ResponseEntity<JsonNode> getUsersActivities(@RequestParam String username, @RequestParam Long id, @RequestParam String filter) {
+        JsonNode jsonNode = userService.getUsersActivities(username, id, filter);
         if (jsonNode == null) {
             return ResponseEntity.noContent().build();
         } else {
@@ -92,5 +92,28 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/user/byNumber")
+    public ResponseEntity<Users> getUserByContactNumber(@RequestParam String contactNumber) {
+        Users user = userService.getUserByContactNumber(contactNumber);
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(user);
+        }
+
+    }
+
+    @GetMapping("/user/filter")
+    public ResponseEntity<JsonNode> getUser(@RequestParam String filter) {
+        JsonNode user = userService.getUser(filter);
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.ok(user);
+        }
+
+    }
+
 
 }
