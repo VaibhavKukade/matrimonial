@@ -124,10 +124,25 @@ public class UserServiceImpl implements UserService {
                 .filter(Borrowing::getStatus)
                 .collect(Collectors.toList());
 
+        double totalDonations= donations.stream()
+                .mapToDouble(donation -> donation.getAmount() != null ? donation.getAmount() : 0)
+                .sum();
+
+        double totalBorrowings= borrowings.stream()
+                .mapToDouble(borrowing -> borrowing.getAmount() != null ? borrowing.getAmount() : 0)
+                .sum();
+        double totalExpenses=0;
+        for (Expenses expense:expenses){
+            totalExpenses+=expense.getAmount()!=null?expense.getAmount().doubleValue():0;
+        }
+
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.createObjectNode();
+        ((ObjectNode) jsonNode).putPOJO("Total Donations", totalDonations);
         ((ObjectNode) jsonNode).putPOJO("Donation", donations);
+        ((ObjectNode) jsonNode).putPOJO("Total Borrowings", totalBorrowings);
         ((ObjectNode) jsonNode).putPOJO("Borrowing", borrowings);
+        ((ObjectNode) jsonNode).putPOJO("Total Expenses", totalExpenses);
         ((ObjectNode) jsonNode).putPOJO("Expenses", expenses);
 
         return jsonNode;
