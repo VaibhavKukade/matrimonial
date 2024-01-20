@@ -116,13 +116,11 @@ public class UserServiceImpl implements UserService {
         List<Expenses> expenses = expensesRepository.getExpensesByUserId(id, date, oldDate);
 
 
-        donations = donations.stream()
-                .filter(Donation::getStatus).
-                collect(Collectors.toList());
+        donations.removeIf(donation -> donation.getStatus() == null || !donation.getStatus());
 
-        borrowings = borrowings.stream()
-                .filter(Borrowing::getStatus)
-                .collect(Collectors.toList());
+        borrowings.removeIf(borrowing -> borrowing.getStatus() == null || !borrowing.getStatus());
+
+
 
         double totalDonations= donations.stream()
                 .mapToDouble(donation -> donation.getAmount() != null ? donation.getAmount() : 0)
@@ -172,8 +170,15 @@ public class UserServiceImpl implements UserService {
         if (oldDate != null) {
             List<Users> users = userRepository.getUsers(simpleDateFormat.format(date), simpleDateFormat.format(oldDate));
             if (users != null && users.size() > 0) {
-                List<Users> approvedUsers = users.stream().filter(user -> user.getApproved()).collect(Collectors.toList());
-                List<Users> unapprovedUsers = users.stream().filter(user -> !user.getApproved()).collect(Collectors.toList());
+
+                List<Users> approvedUsers = users.stream()
+                        .filter(user -> user.getApproved() != null && user.getApproved())
+                        .collect(Collectors.toList());
+
+                List<Users> unapprovedUsers = users.stream()
+                        .filter(user -> user.getApproved() != null && !user.getApproved())
+                        .collect(Collectors.toList());
+
                 List<Users> pendingUsers = users.stream().filter(user -> user.getApproved() == null).collect(Collectors.toList());
 
                 ObjectMapper objectMapper = new ObjectMapper();
